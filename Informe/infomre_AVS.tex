@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{blindtext}
+\usepackage{caption}
+\usepackage[a4paper]{geometry}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue}
+\usepackage{wrapfig}
+
+\fancyhead[LO,RE]{Mètodes numèrics II}
+\fancyhead[RO,LE]{PRÀCTICA 1}
+
+\graphicspath{ {images/} }
+
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+    {\LARGE \textsc{Pràctica 1: Modelització del tractament}}\\ 
+    \vspace{0.2cm}
+    {\LARGE \textsc{d'abalció cardíaca IVS}}\\ 
+    \vspace{0.2cm}
+    $\begin{matrix} 
+    \text{Miguel A.} \hspace{1.5cm} & \text{Daniel G.} & \hspace{1.5cm} \text{Gerard B.}\\1637738 \hspace{1.5cm} & 1666471 & \hspace{1.5cm} 1670235
+    \end{matrix}$
+\end{center}
+\section{Introducció i problema}
+Una ablació cardíaca IVS és una cirugia simple que s'aplica a pacients que pateixen arritmies i que reaccionen negativament a tractaments amb fàrmacs. De forma simplificada, aquesta intervenció consisteix en introduïr electrodes de polaritat oposada i local·litzar-los al cor sobre el teixit malalt. L'objectiu és fer servir l'efecte Joule per a escalfar el teixit malalt i provocar-ne la mort cel·lular de forma local. A l'hora d'aplicar aquest procediment quirúrgic cal tenir en compte algunes precaucions. La regió de teixit malalt ha d'estar entre els \(50\,\text{ºC}\) i \(80\,\text{ºC}\), la regió sana no ha de superar els \(50\,\text{ºC}\) i cap regió ha de sobrepassar els \(80\,\text{ºC}\).\\\\
+A aquesta pràctica intentarem modelitzar aquest procediment realitzant diferents aproximacions i tenint en compte algunes restriccions. Trobarem una solució analítica al problema i la commpararem amb diverses solucions numèriques simulades amb Fortran.\\\\
+Per a modelitzar el problema farem servir la llei de Fourier per a la temperatura:
+\begin{equation*}
+    c_{v}\rho \frac{\partial T}{\partial t} = \nabla (\kappa \nabla T) + P_{\text{ext}}
+\end{equation*}
+on $c_{v}$ és la calor específica, $\rho$ és la densitat, $\kappa$ és la conductivitat tèrmica i $P_{\text{ext}}$ fa referència a totes les fonts de calor externes del sistema. El model simplificat que farem servir serà in condensador planoparal·lel format per dos superfícies circulars que defineixen un volum cilíndric on hi ha teixit sa i teixit malalt al centre. Per aplicar més simplificacions al problema, asumirem que aquest teixit malalt també ocupa un volum cilíndric (veure Figura \ref{esquema_model}). 
+
+%\begin{figure}[h]
+    %\centering
+    %\includegraphics[width = 0.4\linewidth]{esquema_model.png}
+%\end{figure}
+
+Com a condicions inicials i de frontera tindrem en compte la temperatura del cos humà: \(T_c = 36.5\,\text{ºC}\). Aquesta temperatura ha de manternir-se sempre constant ja que el flux de sang provinent de la resta del cos no para en cap moment.
+\section{Equació problema i adimensionalització}
+A partir de la llei de d'Ohm podem trobar l'aportació externa de calor obtinguda per efecte Joule:
+\begin{equation*}
+    \vec{J} = \sigma\vec{E} \hspace{0.3cm} \Rightarrow \hspace{0.3cm} P_{\text{ext}} = \vec{J}\cdot\vec{E} = \sigma E^2 = \frac{\sigma}{2} \frac{(\Delta \phi)^2}{D^2}
+\end{equation*}
+on $\sigma$ és la conductivitat elèctrica del teixit i $D$ i $\Delta \phi$ son la distància i la diferència de potencial elèctric entre els electrodes, respectivament. Aprofitant la simetria cilíndrica del model, podem escriure la llei de Fourier com
+\begin{equation*}
+    c_{v}\rho \frac{\partial T}{\partial t} = \kappa \frac{\partial ^2 T}{\partial z^2} + \frac{\sigma}{2} \frac{(\Delta \phi)^2}{D^2}
+\end{equation*}
+A partir de definir
+\begin{equation*}
+    T = aT' \hspace{0.3cm} \text{,} \hspace{0.3cm} t = bt' \hspace{0.3cm} \text{,} \hspace{0.3cm} z = cz'
+\end{equation*}
+Trobem l'equació normalitzada que farem servir per a resoldre el nostre problema:
+\begin{equation*}
+    \frac{\partial T'}{\partial t'} = \frac{\partial ^2 T'}{\partial z'^2} + 1 
+\end{equation*}
+\section{Solució analítica}
+\section{Solució numèrica: Euler Explícit}
+\section{Solució numèrica: Euler Implícit}
+\section{Solució numèrica: Crank-Nicolson}
+\section{Comparació entre solucions}
+\section{Conclusions}
+\section{Annex}
+\end{document}
