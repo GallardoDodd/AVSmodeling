@@ -13,5 +13,5 @@ REAL, PARAMETER :: k=0.56, phi=0.472, dif=k/c_v/p
 REAL, PARAMETER :: Tc=36.5, N=101, ax=0
 REAL :: at1=0.51*(ax)**2, at2=0.49*(ax)**2, at3=0.25*(ax)**2
 
-
+!modificaciones
 END program
