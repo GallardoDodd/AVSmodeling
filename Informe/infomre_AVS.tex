@@ -38,10 +38,10 @@ Per a modelitzar el problema farem servir la llei de Fourier per a la temperatur
 \end{equation*}
 on $c_{v}$ és la calor específica, $\rho$ és la densitat, $\kappa$ és la conductivitat tèrmica i $P_{\text{ext}}$ fa referència a totes les fonts de calor externes del sistema. El model simplificat que farem servir serà in condensador planoparal·lel format per dos superfícies circulars que defineixen un volum cilíndric on hi ha teixit sa i teixit malalt al centre. Per aplicar més simplificacions al problema, asumirem que aquest teixit malalt també ocupa un volum cilíndric (veure Figura \ref{esquema_model}). 
 
-%\begin{figure}[h]
-    %\centering
-    %\includegraphics[width = 0.4\linewidth]{esquema_model.png}
-%\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.4\linewidth]{images/esquema_temp.png}
+\end{figure}
 
 Com a condicions inicials i de frontera tindrem en compte la temperatura del cos humà: \(T_c = 36.5\,\text{ºC}\). Aquesta temperatura ha de manternir-se sempre constant ja que el flux de sang provinent de la resta del cos no para en cap moment.
 \section{Equació problema i adimensionalització}
@@ -58,14 +58,24 @@ A partir de definir
     T = aT' \hspace{0.3cm} \text{,} \hspace{0.3cm} t = bt' \hspace{0.3cm} \text{,} \hspace{0.3cm} z = cz'
 \end{equation*}
 Trobem l'equació normalitzada que farem servir per a resoldre el nostre problema:
-\begin{equation*}
+\begin{equation*}\label{EDP_norm}
     \frac{\partial T'}{\partial t'} = \frac{\partial ^2 T'}{\partial z'^2} + 1 
 \end{equation*}
-\section{Solució analítica}
+\section{Solució analítica de la EDP}
+Com hem dit, els següents apartats els dedicarem a resoldre l'equació diferencial en derivades parcials \eqref{EDP_norm}. Notem que aquesta equació té solució analítica. Al resoldre l'equació seguint el procediment que s'observa a l'Annex \ref{Annex I} obtenim la següent solució:
+\begin{equation*}
+    solució
+\end{equation*}
 \section{Solució numèrica: Euler Explícit}
 \section{Solució numèrica: Euler Implícit}
 \section{Solució numèrica: Crank-Nicolson}
 \section{Comparació entre solucions}
 \section{Conclusions}
-\section{Annex}
+\section{Annex}\label{Annex I}
+\subsection{Solució analítica}
+Sigui una equació del tipus
+\begin{equation*}
+    \dot{f} = f'' + q
+\end{equation*}
+on $f = f(x,t)$, $q =q(x,t)$ i on el punt representa derivada parcial temporal i les primes derivades parcials erspecte a $x$.
 \end{document}
