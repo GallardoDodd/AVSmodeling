@@ -1,12 +1,41 @@
 PROGRAM euler_implicito
-INTEGER, PARAMETER :: c_v=3686, p=1081, ampven=2
-REAL, PARAMETER :: k=0.56, phi=0.472, dif=k/c_v/p, h=0.5
-INTEGER, PARAMETER :: N=101
-REAL, PARAMETER :: Tc=36.5, tin=0, tfin=0.025,xin=0,xfin=ampven
-REAL, PARAMETER :: ax=(xfin-xin)/N, at1=(ax)**2, at2=0.5*(ax)**2
-INTEGER :: Nat1 = int((tfin-tin)/at1), Nat2 = int((tfin-tin)/at2), info
+REAL, PARAMETER :: &
+  Tc = 309.65, &        ! Temperatura del cos [K]
+  k = 0.56, &           ! Conductivitat tèrmica [W/m·K]
+  sigma = 0.472, &      ! Conductivitat elèctrica [S/m]
+  D = 0.02, &           ! Amplitud del vas [m]
+  V = 40.0, &           ! Potencial elèctric [V]
+  c_v = 3686.0, &       ! Capacidad calorífica específica [J/kg·K]
+  p = 1081.0            ! Densitat [kg/m^3]
+
+INTEGER, PARAMETER :: N=101                          ! Nombre de punts de la idscretització espaial
+
+REAL, PARAMETER :: &
+    alpha=k/(c_v*p), &                               ! Coeficient de difusió [m^2/s]
+    Tc_norm=1, &                                     ! Temperatura corporal normalitzada
+    tin=0, &                                         ! Temps inicial (normalitzat)
+    tfin=0.025, &                                    ! Temps final (normalitzat)
+    xin=0, &                                         ! Coordenada espaial inicial (normalitzada)
+    xfin=D*SQRT((0.5*sigma*V**2)/(Tc*k*D**2))        ! Coordenada espaial final (normalitzada)
+
+REAL, PARAMETER :: &
+    ax=(xfin-xin)/N, &          ! Increment de distància
+    at1=(ax)**2, &              ! Increment temporal 1
+    at2=0.5*(ax)**2             ! Increment temporal 2
+
+INTEGER :: Nat1 = int((tfin-tin)/at1), Nat2 = int((tfin-tin)/at2), info     ! Nombre de punts per a cada cas i variable muda
+
 INTEGER, ALLOCATABLE :: ipiv(:)
-REAL, ALLOCATABLE :: T(:,:), xlin(:), tlin(:), M(:,:), M_inv(:,:), b(:), T_new(:), work(:)
+
+REAL, ALLOCATABLE :: &
+    T(:,:), &           ! Matriu de temperatures
+    xlin(:), &          ! Discretització espaial
+    tlin(:), &          ! Discretització temporal
+    M(:,:), &           ! Matriu euler_implícit
+    M_inv(:,:), &       ! Inversa de la matriu euler_implícit
+    b(:), &             ! Vector independent
+    T_new(:), &         ! Matriu de temperatures temporal
+    work(:)             ! Espai de treball per al mètode LU d'inversió de matrius
 
 !----///---PRIMER CAS---///---:
 !Es crea la malla de punts d'espai i temps
@@ -31,18 +60,18 @@ END IF
 !Vector constant que conté les condicions inicials per a les iteracions
 ALLOCATE(b(N-2))
 b = at1
-b(1)= Tc + at1
-b(N-2)= Tc + at1
+b(1)= Tc_norm + at1
+b(N-2)= Tc_norm + at1
 
 !Estructura del mapa de temperatures T(i,j): i és la component temporal, j la component espaial
 ALLOCATE(T(Nat1,N))
 
 !Condicions de contorn
-T(:,1)=Tc
-T(:,N)=Tc
+T(:,1)=Tc_norm
+T(:,N)=Tc_norm
 
 !Condicions inicials
-T(1,:)=Tc
+T(1,:)=Tc_norm
 ALLOCATE(T_new(N-2))
 
 !Iteracions aplicant l'equació matricial
@@ -98,18 +127,18 @@ END IF
 !Vector constant que conté les condicions inicials per a les iteracions
 ALLOCATE(b(N-2))
 b = at2
-b(1)= 0.5*Tc + at2
-b(N-2)= 0.5*Tc + at2
+b(1)= 0.5*Tc_norm + at2
+b(N-2)= 0.5*Tc_norm + at2
 
 !Estructura del mapa de temperatures T(i,j): i és la component temporal, j la component espaial
 ALLOCATE(T(Nat2,N))
 
 !Condicions de contorn
-T(:,1)=Tc
-T(:,N)=Tc
+T(:,1)=Tc_norm
+T(:,N)=Tc_norm
 
 !Condicions inicials
-T(1,:)=Tc
+T(1,:)=Tc_norm
 ALLOCATE(T_new(N-2))
 
 !Iteracions aplicant l'equació matricial
@@ -142,7 +171,7 @@ CLOSE(20)
 PRINT *, "> 'dades_2D_imp_at2' closed correctly"
 DEALLOCATE(xlin,tlin,M,M_inv,ipiv,work,b,T)
 
-!Subrutines que es cridarem al executar el programa
+!Subrutines que cridarem al executar el programa
 CONTAINS
     FUNCTION linspace(valin, valfin, num) result(lista)
         REAL, INTENT(in) :: valin, valfin   
