@@ -57,6 +57,7 @@ CALL invertir(M, M_inv, N-2, ipiv, work, info)
 IF (info /= 0) THEN
     PRINT *, "La matriu no és invertible, info =", info
 END IF
+
 !Vector constant que conté les condicions inicials per a les iteracions
 ALLOCATE(b(N-2))
 b = at1
