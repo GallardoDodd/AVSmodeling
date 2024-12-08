@@ -62,11 +62,56 @@ Trobem l'equació normalitzada que farem servir per a resoldre el nostre problem
     \frac{\partial T'}{\partial t'} = \frac{\partial ^2 T'}{\partial z'^2} + 1 
 \end{equation*}
 \section{Solució analítica de la EDP}
-Com hem dit, els següents apartats els dedicarem a resoldre l'equació diferencial en derivades parcials \eqref{EDP_norm}. Notem que aquesta equació té solució analítica. Al resoldre l'equació seguint el procediment que s'observa a l'Annex \ref{Annex I} obtenim la següent solució:
+Com hem dit, els següents apartats els dedicarem a resoldre l'equació diferencial en derivades parcials \eqref{EDP_norm}. Notem que aquesta equació té solució analítica. Al resoldre l'equació seguint el procediment que s'observa a l'Annex \ref{Annex I} obtenim la següent solució normalitzada:
 \begin{equation*}
-    solució
+    T'(x,t) = T_c' + \sum_{i=0}^{\infty} \frac{ 1-e^{-(2n+1)^2 pi^2 t}}{(2n+1)^3\pi^3}\cdot 4sin((2n+1)\pi x)
 \end{equation*}
+
+
 \section{Solució numèrica: Euler Explícit}
+Fem servir el mètode d'Euler Explícit amb diversos mallats per trobar la distribució de temperatures en $t=0.025$. En la Taula 1, s'exposa el resultat amb el mallat 0,51 i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la ximplesa del mètode i fer servir un pas temporal massa gran.  En la Taula 2 i 3 s'exposa el resultat pel mallat de 0,49 i 0,25. Notem que per mallats menors a 0,5 desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
+
+
+\begin{table}[h]
+    \centering
+    \caption{Resultats pel mallat de 0.51 amb Euler Explícit}
+    \label{tab:euler_at1}
+    \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{imagen1.jpg} &
+        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
+        
+        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.51 en t=0.025 fent servir el mètode d'euler} &
+        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució analítica) pel mallat 0.51 en t=0.025 fent servir el mètode d'euler} \\
+ 
+    \end{tabular}
+\end{table}
+\begin{table}[h]
+    \centering
+    \caption{Resultats pel mallat de 0.49 amb Euler Explícit}
+    \label{tab:euler_at1}
+    \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{imagen1.jpg} &
+        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
+        
+        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.49 en t=0.025 fent servir el mètode d'euler} &
+        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució analítica) pel mallat 0.49 en t=0.025 fent servir el mètode d'euler} \\
+ 
+    \end{tabular}
+\end{table}
+\begin{table}[h]
+    \centering
+    \caption{Resultats pel mallat de 0.51 amb Euler Explícit}
+    \label{tab:euler_at1}
+    \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{imagen1.jpg} &
+        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
+        
+        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.25 en t=0.025 fent servir el mètode d'euler} &
+        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució anakítica) pel mallat 0.25 en t=0.025 fent servir el mètode d'euler} \\
+ 
+    \end{tabular}
+\end{table}
+
 \section{Solució numèrica: Euler Implícit}
 \section{Solució numèrica: Crank-Nicolson}
 \section{Comparació entre solucions}

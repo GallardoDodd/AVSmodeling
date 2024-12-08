@@ -2,8 +2,7 @@ program euler_explicito
 ! Consideramos un disco uniforme de altura h como el tejido enfermo
 ! c_v es calor específico, p la densidad, k la conductividad térmica, sigma la conductividad eléctrica
 ! dif la difusión térmica i una amplitud del ventriculo ampven.
-INTEGER, PARAMETER :: c_v=3686, p=1081
-REAL, PARAMETER :: k=0.56, sigma=0.472, dif=k/c_v/p,  h=0.5, pi=3.14159265, ampven=0.02
+REAL, PARAMETER :: k=0.56, sigma=0.472,  h=0.5, pi=3.14159265, ampven=0.02, c_v=3686, p=1081,  dif=k/(c_v*p)
 
 !Las condiciones iniciales i de frontera. El sistema se encuentra a la temperatura
 !del cuerpo humano Tc inicialmente y en Tc siempre en la frontera.
