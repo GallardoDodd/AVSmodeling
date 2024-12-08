@@ -1,9 +1,9 @@
 program euler_explicito
 ! Consideramos un disco uniforme de altura h como el tejido enfermo
-! c_v es calor específico, p la densidad, k la conductividad térmica,
+! c_v es calor específico, p la densidad, k la conductividad térmica, sigma la conductividad eléctrica
 ! dif la difusión térmica i una amplitud del ventriculo ampven.
-INTEGER, PARAMETER :: c_v=3686, p=1081, ampven=2
-REAL, PARAMETER :: k=0.56, phi=0.472, dif=k/c_v/p,  h=0.5, pi=3.14159265
+INTEGER, PARAMETER :: c_v=3686, p=1081
+REAL, PARAMETER :: k=0.56, sigma=0.472, dif=k/c_v/p,  h=0.5, pi=3.14159265, ampven=0.02
 
 !Las condiciones iniciales i de frontera. El sistema se encuentra a la temperatura
 !del cuerpo humano Tc inicialmente y en Tc siempre en la frontera.
@@ -11,7 +11,7 @@ REAL, PARAMETER :: k=0.56, phi=0.472, dif=k/c_v/p,  h=0.5, pi=3.14159265
 !i at el espaciado en el tiempo.
 INTEGER,  PARAMETER :: N=101
 CHARACTER(len=N) :: formato
-REAL, PARAMETER :: Tc=1, tin=0, tfin=0.025, xin=0, xfin=ampven !Condiciones de contorno
+REAL, PARAMETER :: Tc=1, tin=0, tfin=0.025, xin=0, xfin=sqrt((0.5*sigma*40**2)/((36.5+273.15)*k*ampven**2))*ampven !Condiciones de contorno NORMALIZADAS
 REAL, PARAMETER:: ax=(xfin-xin)/N , at1=0.51*(ax)**2, at2=0.49*(ax)**2, at3=0.25*(ax)**2 !Espaciado temporal segun el espacial en cada caso
 INTEGER :: Nat1 =int((tfin-tin)/at1), Nat2 =int((tfin-tin)/at2), Nat3 =int((tfin-tin)/at3) !Número de puntos del espaciado temporal en cada caso
 
@@ -110,6 +110,26 @@ DO i=1,N
     WRITE(20, '(F10.6,F10.6)') xlin(i), T(i,Nat2)
 END DO
 
+!Error numèrico de la solución en x=0.025
+DEALLOCATE(T_an)
+DEALLOCATE(T_err)
+allocate(T_an(N,Nat2))
+allocate(T_err(N,Nat2))
+open(unit=30,file='Grafics_error/error_2D_at2.txt',status='replace',action='write')
+DO i=1,N
+    T_an(i,Nat2)= Tc + (1-exp(-pi*tfin**2))*sin(pi*xlin(i)) *  4/pi**3 +  (1-exp(-pi*9*tfin**2))*sin(9*pi*xlin(i)) *  4/(27*pi**3) !Solución analítica para la temperatura
+end DO
+DO j=1,Nat2
+    DO i=1,N
+        T_err(i,j) = -T_an(i,j) + T(i,j)  !Error numèrico: diferencia entre T() numericamente calculado i T_an analiticamente calculado
+    end DO
+end DO
+DO i=1,N
+    WRITE(30, '(F10.6,F10.6)') xlin(i), T_err(i,Nat2) !Datos gráfico error numèrico en y=0.025
+END DO
+
+
+close(30)
 close(10)
 PRINT *,"> 'temperatura_at2' closed correctly"
 close(20)
@@ -153,12 +173,29 @@ DO i=1,N
     WRITE(20, '(F10.6,F10.6)') xlin(i), T(i,Nat3)
 END DO
 
+!Error numèrico de la solución en x=0.025
+DEALLOCATE(T_an)
+DEALLOCATE(T_err)
+allocate(T_an(N,Nat3))
+allocate(T_err(N,Nat3))
+open(unit=30,file='Grafics_error/error_2D_at3.txt',status='replace',action='write')
+DO i=1,N
+    T_an(i,Nat3)= Tc + (1-exp(-pi*tfin**2))*sin(pi*xlin(i)) *  4/pi**3 +  (1-exp(-pi*9*tfin**2))*sin(9*pi*xlin(i)) *  4/(27*pi**3) !Solución analítica para la temperatura
+end DO
+DO j=1,Nat3
+    DO i=1,N
+        T_err(i,j) = -T_an(i,j) + T(i,j)  !Error numèrico: diferencia entre T() numericamente calculado i T_an analiticamente calculado
+    end DO
+end DO
+DO i=1,N
+    WRITE(30, '(F10.6,F10.6)') xlin(i), T_err(i,Nat3) !Datos gráfico error numèrico en y=0.025
+END DO
+
+close(30)
 close(10)
 PRINT *,"> 'temperatura_at3' closed correctly"
 close(20)
 PRINT *,"> 'dades_2D_at3' closed correctly"
-
-
 
 
 !---- FUNCIONES ----
