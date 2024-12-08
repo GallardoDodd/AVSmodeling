@@ -1,4 +1,4 @@
-PROGRAM euler_implicito
+PROGRAM crank_nicholson
 REAL, PARAMETER :: &
   Tc = 309.65, &        ! Temperatura del cos [K]
   k = 0.56, &           ! Conductivitat tèrmica [W/m·K]
@@ -31,8 +31,9 @@ REAL, ALLOCATABLE :: &
     T(:,:), &           ! Matriu de temperatures
     xlin(:), &          ! Discretització espaial
     tlin(:), &          ! Discretització temporal
-    M(:,:), &           ! Matriu euler_implícit
-    M_inv(:,:), &       ! Inversa de la matriu euler_implícit
+    M1(:,:), &          ! Matriu 1 Crank_Nicholson
+    M1_inv(:,:), &      ! Inversa de la matriu 1 Crank_Nicholson
+    M2(:,:), &          ! Matriu 2 Crank_Nicholson
     b(:), &             ! Vector independent
     T_new(:), &         ! Matriu de temperatures temporal
     work(:)             ! Espai de treball per al mètode LU d'inversió de matrius
@@ -43,26 +44,35 @@ ALLOCATE(xlin(N), tlin(Nat1))
 xlin = linspace(xin,xfin,N)
 tlin = linspace(tin,tfin,Nat1)
 
-!Calculem la matriu M i la seva inversa:
-ALLOCATE(M(N-2,N-2),M_inv(N-2,N-2),ipiv(N-2),work(2*(N-2)))
-M = 0.0
+!Calculem la matriu M1 i la seva inversa:
+ALLOCATE(M1(N-2,N-2),M1_inv(N-2,N-2),ipiv(N-2),work(2*(N-2)))
+M1 = 0.0
 DO i = 1, N-2
-    IF (i > 1) M(i, i-1) = -1.0     
-    M(i, i) = 3.0                 
-    IF (i < N-2) M(i, i+1) = -1.0   
+    IF (i > 1) M1(i, i-1) = -1.0     
+    M1(i, i) = 4.0                 
+    IF (i < N-2) M1(i, i+1) = -1.0   
 END DO
-CALL invertir(M, M_inv, N-2, ipiv, work, info)
+CALL invertir(M1, M1_inv, N-2, ipiv, work, info)
 
 !Condició que informa si la matriu construida és invertible o no
 IF (info /= 0) THEN
-    PRINT *, "La matriu no és invertible, info =", info
+    PRINT *, "La matriu M1 no és invertible, info =", info
 END IF
+DEALLOCATE(ipiv,work)
 
-!Vector constant que conté les condicions inicials per a les iteracions
+!Calculem la matriu M2
+ALLOCATE(M2(N-2,N-2))
+M2 = 0.0
+DO i = 1, N-2
+    IF (i > 1) M2(i, i-1) = 1.0                   
+    IF (i < N-2) M2(i, i+1) = 1.0   
+END DO
+
+!Vector constant b
 ALLOCATE(b(N-2))
-b = at1
-b(1)= Tc_norm + at1
-b(N-2)= Tc_norm + at1
+b = 2*at1
+b(1)= 2*(Tc_norm + at1)
+b(N-2)= 2*(Tc_norm + at1)
 
 !Estructura del mapa de temperatures T(i,j): i és la component temporal, j la component espaial
 ALLOCATE(T(Nat1,N))
@@ -73,20 +83,20 @@ T(:,N)=Tc_norm
 
 !Condicions inicials
 T(1,:)=Tc_norm
-ALLOCATE(T_new(N-2))
 
 !Iteracions aplicant l'equació matricial
+ALLOCATE(T_new(N-2))
 DO i=2,Nat1
-    T_new = matmul(M_inv,T(i-1,2:N-1)+b)
+    T_new = matmul(M1_inv,b + matmul(M2,T(i-1,2:N-1)))
     T(i,2:N-1) = T_new
 END DO
 DEALLOCATE(T_new)
 
 !Imprimim les dades com a llistes de dades que pugui entendre gnuplot o altre programa que les grafiqui:
-PRINT*, "> Open dades_3D_imp_at1"
-OPEN(unit=10,file='dades_3D_imp_at1.txt',status='replace',action='write')
-PRINT*,"> Open dades_2D_imp_at1"
-OPEN(unit=20,file='dades_2D_imp_at1.txt',status='replace',action='write')
+PRINT*, "> Open dades_3D_CN_at1"
+OPEN(unit=10,file='dades_3D_CN_at1.txt',status='replace',action='write')
+PRINT*,"> Open dades_2D_CN_at1"
+OPEN(unit=20,file='dades_2D_CN_at1.txt',status='replace',action='write')
 
 !Dades gràfic 3D:
 DO i=1,N
@@ -100,36 +110,46 @@ DO i=1,N
     WRITE(20,'(F10.6,F10.6)') xlin(i), T(Nat1,i)
 END DO
 CLOSE(10)
-PRINT *, "> 'dades_3D_imp_at1' closed correctly"
+PRINT *, "> 'dades_3D_CN_at1' closed correctly"
 CLOSE(20)
-PRINT *, "> 'dades_2D_imp_at1' closed correctly"
-DEALLOCATE(xlin,tlin,M,M_inv,ipiv,work,b,T)
+PRINT *, "> 'dades_2D_CN_at1' closed correctly"
+DEALLOCATE(xlin,tlin,M1,M1_inv,M2,b,T)
 
-!---///---SEGON CAS---///---:
+!----///---SEGON CAS---///---:
 !Es crea la malla de punts d'espai i temps
 ALLOCATE(xlin(N), tlin(Nat2))
 xlin = linspace(xin,xfin,N)
 tlin = linspace(tin,tfin,Nat2)
 
-!Calculem la matriu M i la seva inversa:
-ALLOCATE(M(N-2,N-2),M_inv(N-2,N-2),ipiv(N-2),work(2*(N-2)))
-M = 0.0
+!Calculem la matriu M1 i la seva inversa:
+ALLOCATE(M1(N-2,N-2),M1_inv(N-2,N-2),ipiv(N-2),work(2*(N-2)))
+M1 = 0.0
 DO i = 1, N-2
-    IF (i > 1) M(i, i-1) = -0.5     
-    M(i, i) = 2.0                 
-    IF (i < N-2) M(i, i+1) = -0.5   
+    IF (i > 1) M1(i, i-1) = -1.0     
+    M1(i, i) = 4.0                 
+    IF (i < N-2) M1(i, i+1) = -1.0   
 END DO
-CALL invertir(M, M_inv, N-2, ipiv, work, info)
+CALL invertir(M1, M1_inv, N-2, ipiv, work, info)
 
 !Condició que informa si la matriu construida és invertible o no
 IF (info /= 0) THEN
-    PRINT *, "La matriu no és invertible, info =", info
+    PRINT *, "La matriu M1 no és invertible, info =", info
 END IF
-!Vector constant que conté les condicions inicials per a les iteracions
+DEALLOCATE(ipiv,work)
+
+!Calculem la matriu M2
+ALLOCATE(M2(N-2,N-2))
+M2 = 0.0
+DO i = 1, N-2
+    IF (i > 1) M2(i, i-1) = 1.0                   
+    IF (i < N-2) M2(i, i+1) = 1.0   
+END DO
+
+!Vector constant b
 ALLOCATE(b(N-2))
-b = at2
-b(1)= 0.5*Tc_norm + at2
-b(N-2)= 0.5*Tc_norm + at2
+b = 2*at2
+b(1)= 2*(Tc_norm + at2)
+b(N-2)= 2*(Tc_norm + at2)
 
 !Estructura del mapa de temperatures T(i,j): i és la component temporal, j la component espaial
 ALLOCATE(T(Nat2,N))
@@ -140,20 +160,20 @@ T(:,N)=Tc_norm
 
 !Condicions inicials
 T(1,:)=Tc_norm
-ALLOCATE(T_new(N-2))
 
 !Iteracions aplicant l'equació matricial
+ALLOCATE(T_new(N-2))
 DO i=2,Nat2
-    T_new = matmul(M_inv,T(i-1,2:N-1)+b)
+    T_new = matmul(M1_inv,b + matmul(M2,T(i-1,2:N-1)))
     T(i,2:N-1) = T_new
 END DO
 DEALLOCATE(T_new)
 
 !Imprimim les dades com a llistes de dades que pugui entendre gnuplot o altre programa que les grafiqui:
-PRINT*, "> Open dades_3D_imp_at2"
-OPEN(unit=10,file='dades_3D_imp_at2.txt',status='replace',action='write')
-PRINT*,"> Open dades_2D_imp_at2"
-OPEN(unit=20,file='dades_2D_imp_at2.txt',status='replace',action='write')
+PRINT*, "> Open dades_3D_CN_at2"
+OPEN(unit=10,file='dades_3D_CN_at2.txt',status='replace',action='write')
+PRINT*,"> Open dades_2D_CN_at2"
+OPEN(unit=20,file='dades_2D_CN_at2.txt',status='replace',action='write')
 
 !Dades gràfic 3D:
 DO i=1,N
@@ -167,10 +187,10 @@ DO i=1,N
     WRITE(20,'(F10.6,F10.6)') xlin(i), T(Nat2,i)
 END DO
 CLOSE(10)
-PRINT *, "> 'dades_3D_imp_at2' closed correctly"
+PRINT *, "> 'dades_3D_CN_at1' closed correctly"
 CLOSE(20)
-PRINT *, "> 'dades_2D_imp_at2' closed correctly"
-DEALLOCATE(xlin,tlin,M,M_inv,ipiv,work,b,T)
+PRINT *, "> 'dades_2D_CN_at1' closed correctly"
+DEALLOCATE(xlin,tlin,M1,M1_inv,M2,b,T)
 
 !Subrutines que cridarem al executar el programa
 CONTAINS
@@ -202,4 +222,4 @@ CONTAINS
 
         CALL sgetri(n, A_inv, n, ipiv, work, SIZE(work), info)
     END SUBROUTINE invertir
-END PROGRAM euler_implicito
+END PROGRAM crank_nicholson
