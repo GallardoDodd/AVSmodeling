@@ -1,11 +1,11 @@
 module parametros
 
 REAL, PARAMETER :: &
-  Tc = 309.65, &        ! Temperatura del cos [K]
+  Tc = 36.5, &        ! Temperatura del cos [K]
   k = 0.56, &           ! Conductivitat tèrmica [W/m·K]
   sigma = 0.472, &      ! Conductivitat elèctrica [S/m]
   D = 0.02, &           ! Amplitud del vas [m]
-  V = 80.0, &           ! Potencial elèctric [V]
+  V = 40.0, &           ! Potencial elèctric [V]
   c_v = 3686.0, &       ! Capacidad calorífica específica [J/kg·K]
   p = 1081.0            ! Densitat [kg/m^3]
 
@@ -32,7 +32,8 @@ REAL, ALLOCATABLE :: &
     T_new(:), &         ! Matriu de temperatures temporal
     work(:), &           ! Espai de treball per al mètode LU d'inversió de matrius
     T_desnor(:,:), &
-    xlin_desnor(:)
+    xlin_desnor(:), &
+    tlin_desnor(:)
 
 end module parametros
 
@@ -74,14 +75,14 @@ max_stop = (maximo < T_max)
 if (max_stop .and. max_stop2) THEN !Comprovem que no s'ha superat la temperatura màxima
     Temp = T_desnor
     espai = xlin_desnor
-    temps = tlin
-    DEALLOCATE(tlin)
+    temps = tlin_desnor
+    DEALLOCATE(tlin_desnor)
     DEALLOCATE(xlin_desnor)
     DEALLOCATE(T_desnor)
     !print *, "vuelta con", maximo, "en tiempo", tfin
 end if 
 END DO
-print *, "El temps més eficient trobat és", tfin-aug_temp
+print *, "El temps més eficient trobat és", (tfin-aug_temp)*(2*D**2*c_v*p*Tc)/(sigma*v**2)
 !----//IMPRIMIMOS LOS DATOS EN DOCMUENTO DE TEXTO PARA GRAFICAR//----
 !Les dades com a llistes de dades que pugui entendre gnuplot o altre programa que les grafiqui:
 OPEN(unit=10,file='resultat_problemaIVS-3D.txt',status='replace',action='write')
@@ -99,35 +100,6 @@ END DO
 CLOSE(10)
 CLOSE(20)
 
-go to 100
-!----------------------------------------------------------------------------
-!Euler explicit
-ax=(xfin-xin)/N
-at2=0.39*(ax)**2  
-Nat2 = int((tfin-tin)/at2)
-tlin=linspace(tin,tfin,Nat2)
-xlin=linspace(xin,xfin,N)
-allocate(T(N,Nat2), T_desnor(N,Nat2))
-DO j=1,Nat2
-    T(1,j)=Tc_norm
-    T(N,j)=Tc_norm
-end DO
-DO i=1,N
-    T(i,1)=Tc_norm
-end DO
-
-DO j=1,Nat2-1
-    DO i=2,N-1
-        T(i,j+1)= T(i,j)+0.25*(T(i+1,j) - 2*T(i,j) + T(i-1,j))+at2
-    end DO
-end DO
-DO j=1,Nat2-1
-    DO i=2,N-1
-        T_desnor(i,j)= T(i,j)*Tc_desnor
-    end DO
-end DO
-
-100 continue
 !------------------------------------------------------------------//
 !Subrutines que cridarem al executar el programa
 CONTAINS
@@ -190,15 +162,16 @@ END DO
 
 
 !----//OBTENIM LES DADES REALS REVERTINT LA NORMALITZACIÓ//----
-ALLOCATE(T_desnor(Nat2,N), xlin_desnor(N))
+ALLOCATE(T_desnor(Nat2,N), xlin_desnor(N), tlin_desnor(Nat2))
 DO i=1,N
     DO j=1,Nat2
         T_desnor(j,i) = T(j,i)*Tc_desnor
         xlin_desnor(i) = xlin(i)/SQRT((0.5*sigma*V**2)/(Tc*k*D**2))
+        tlin_desnor(j) = tlin(j)*(2*D**2*c_v*p*Tc)/(sigma*V**2)
     END DO
 END DO
 
-DEALLOCATE(xlin,M1,M1_inv,M2,b,T)
+DEALLOCATE(xlin,tlin,M1,M1_inv,M2,b,T)
 
 END SUBROUTINE cranck_nichols
 
