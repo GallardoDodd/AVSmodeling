@@ -145,7 +145,7 @@ on aïllem el terme $\vec{T}_i$ per a poder iterar i on definim
     \mathbb{M} = \text{tridiag}(-\gamma,1+2\gamma,-\gamma)
 \end{equation*}
 és a dir, el vector $\vec{T}_{i}$ emmagatzema tots els punts espaials de $\tilde{T}$ al temps $i$ sense tenir en compte les condicions de contorn. Aquestes es troben de forma implícita al vector $\vec{b}$. La matriu $\mathbb{M}$ és una matriu tridiagonal, on segons aquesta notació la diagonal inferior correspon a la primera entrada $-\gamma$, la diagonal principal a la segona entrada $(1+2\gamma)$ i la tercera entrada a la diagonal superior, $-\gamma$.\\\\
-Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \ref{fig:euler_implicit} i Fig. \ref{fig:err_euler_implicit}.
+Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \ref{fig:euler_implicit}.
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.35\textwidth}
@@ -162,22 +162,7 @@ Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \
     \caption{Solució numèrica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
     \label{fig:euler_implicit}
 \end{figure}
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
-        \caption{}
-        \label{fig:err_euler_imp_at1}
-    \end{subfigure}
-    \hspace{1.5cm}
-    \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
-        \caption{} 
-        \label{fig:err_euler_imp_at2}
-    \end{subfigure}
-    \caption{Error numèric del mètode d'Euler implícit respecte a la solució analítica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
-    \label{fig:err_euler_implicit}
-\end{figure}
+
 \subsection{Crank-Nicolson}
 Fem servir ara l'esquema de Crank-Nicholson per a resoldre l'equació \eqref{EDP_norm} \cite{Navau2024}. Tornant a discretitzar la derivada temporal per la dreta i fent una mitjana de la segonda derivada entre $i$ i $(i+1)$ obtenim la relació de recurrència
 \begin{equation*}
@@ -194,7 +179,7 @@ on definim els vectors $\vec{T}_{i}$ i $\vec{T}_{i+1}$ de la mateixa manera que 
 \begin{equation*}
     \mathbb{A} = \text{tridiag}(-\gamma,2+2\gamma,-\gamma) \hspace{4 mm} \text{,} \hspace{4 mm} \mathbb{B} = \text{tridiag}(\gamma,2-2\gamma,\gamma)
 \end{equation*}
-Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_nicholson} i Fig. \ref{fig:err_crank_nicholson}
+Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_nicholson}.
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.35\textwidth}
@@ -210,22 +195,6 @@ Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_
     \end{subfigure}
     \caption{Solució numèrica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
     \label{fig:crank_nicholson}
-\end{figure}
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
-        \caption{}
-        \label{fig:err_CN_at1}
-    \end{subfigure}
-    \hspace{1.5cm}
-    \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
-        \caption{} 
-        \label{fig:err_CN_at2}
-    \end{subfigure}
-    \caption{Error respecte a la solució analítica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
-    \label{fig:err_crank_nicholson}
 \end{figure}
 
 \section{Solució del problema d'IVS}
@@ -248,7 +217,7 @@ Amb això, evitem les limitacions dels mètodes explícit i implícit pel que fa
 Implementant l'esquema, calculem el temps òptim d'aplicació del tractament elèctric que satisfà les condicions de seguretat requerides: %
 mantenir el teixit sa per sota dels 50 ºC, evitar que qualsevol punt assoleixi els 80 ºC, i assegurar que la major %
 part del teixit malalt es mantingui entre els 50 ºC i els 80 ºC. D'aquesta manera, s'ha determinat que el temps ideal per a aquest procediment és de 63.17 segons, garantint un tractament eficient i segur.
->>>>>>> e767086244bf8b8a3fe659d184616e7c343f7da5
+
 
 \section{Annex}\label{Annex I}
 \subsection{Solució analítica}

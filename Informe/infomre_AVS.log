@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.12.8)  9 DEC 2024 14:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.12.8)  9 DEC 2024 14:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -508,29 +508,49 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
 
 [2 <./images/T_vs_z_at1.png> <./images/T_vs_z_at2.png> <./images/T_vs_z_at3.png>]
-<images/T_vs_z_imp_at1.png, id=101, 422.7795pt x 298.4751pt>
+<images/T_vs_z_imp_at1.png, id=100, 422.7795pt x 298.4751pt>
 File: images/T_vs_z_imp_at1.png Graphic file (type png)
 <use images/T_vs_z_imp_at1.png>
 Package pdftex.def Info: images/T_vs_z_imp_at1.png  used on input line 152.
 (pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-<images/T_vs_z_imp_at2.png, id=102, 422.7795pt x 298.4751pt>
+<images/T_vs_z_imp_at2.png, id=101, 422.7795pt x 298.4751pt>
 File: images/T_vs_z_imp_at2.png Graphic file (type png)
 <use images/T_vs_z_imp_at2.png>
 Package pdftex.def Info: images/T_vs_z_imp_at2.png  used on input line 158.
 (pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-File: images/T_vs_z_at1.png Graphic file (type png)
-<use images/T_vs_z_at1.png>
-Package pdftex.def Info: images/T_vs_z_at1.png  used on input line 168.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-File: images/T_vs_z_at2.png Graphic file (type png)
-<use images/T_vs_z_at2.png>
-Package pdftex.def Info: images/T_vs_z_at2.png  used on input line 174.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--181
+Underfull \hbox (badness 10000) in paragraph at lines 146--165
 
  []
 
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.07225pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.07225pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
+
+[3 <./images/Error_vs_pos_at1.png> <./images/Error_vs_pos_at2.png> <./images/Error_vs_pos_at3.png> <./images/T_vs_z_imp_at1.png> <./images/T_vs_z_imp_at2.png>]
+<images/T_vs_z_CN_at1.png, id=117, 422.7795pt x 298.4751pt>
+File: images/T_vs_z_CN_at1.png Graphic file (type png)
+<use images/T_vs_z_CN_at1.png>
+Package pdftex.def Info: images/T_vs_z_CN_at1.png  used on input line 186.
+(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
+<images/T_vs_z_CN_at2.png, id=118, 422.7795pt x 298.4751pt>
+File: images/T_vs_z_CN_at2.png Graphic file (type png)
+<use images/T_vs_z_CN_at2.png>
+Package pdftex.def Info: images/T_vs_z_CN_at2.png  used on input line 192.
+(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+<images/solucion_IVS-2D.png, id=120, 642.4pt x 481.8pt>
+File: images/solucion_IVS-2D.png Graphic file (type png)
+<use images/solucion_IVS-2D.png>
+Package pdftex.def Info: images/solucion_IVS-2D.png  used on input line 205.
+(pdftex.def)             Requested size: 227.62206pt x 170.71304pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -541,30 +561,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
 
-[3 <./images/Error_vs_pos_at1.png> <./images/Error_vs_pos_at2.png> <./images/Error_vs_pos_at3.png> <./images/T_vs_z_imp_at1.png> <./images/T_vs_z_imp_at2.png>]
-<images/T_vs_z_CN_at1.png, id=120, 422.7795pt x 298.4751pt>
-File: images/T_vs_z_CN_at1.png Graphic file (type png)
-<use images/T_vs_z_CN_at1.png>
-Package pdftex.def Info: images/T_vs_z_CN_at1.png  used on input line 201.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-<images/T_vs_z_CN_at2.png, id=121, 422.7795pt x 298.4751pt>
-File: images/T_vs_z_CN_at2.png Graphic file (type png)
-<use images/T_vs_z_CN_at2.png>
-Package pdftex.def Info: images/T_vs_z_CN_at2.png  used on input line 207.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-File: images/T_vs_z_at1.png Graphic file (type png)
-<use images/T_vs_z_at1.png>
-Package pdftex.def Info: images/T_vs_z_at1.png  used on input line 217.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-File: images/T_vs_z_at2.png Graphic file (type png)
-<use images/T_vs_z_at2.png>
-Package pdftex.def Info: images/T_vs_z_at2.png  used on input line 223.
-(pdftex.def)             Requested size: 159.33821pt x 112.49261pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 232--233
-
- []
-
+[4 <./images/T_vs_z_CN_at1.png> <./images/T_vs_z_CN_at2.png>] (./infomre_AVS.bbl)
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.07225pt, for example:
@@ -572,29 +569,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
 
-[4 <./images/T_vs_z_CN_at1.png> <./images/T_vs_z_CN_at2.png>]
-<images/solucion_IVS-2D.png, id=131, 642.4pt x 481.8pt>
-File: images/solucion_IVS-2D.png Graphic file (type png)
-<use images/solucion_IVS-2D.png>
-Package pdftex.def Info: images/solucion_IVS-2D.png  used on input line 236.
-(pdftex.def)             Requested size: 227.62206pt x 170.71304pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.07225pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.07225pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
-
-[5 <./images/solucion_IVS-2D.png>] (./infomre_AVS.bbl)
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.07225pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.07225pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-1.07225pt}.
-
-[6] (./infomre_AVS.aux)
+[5 <./images/solucion_IVS-2D.png>] (./infomre_AVS.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -602,18 +577,18 @@ Package rerunfilecheck Info: File `infomre_AVS.out' has not changed.
 (rerunfilecheck)             Checksum: F848D48108175C531AF95DB7A8286033;1652.
  ) 
 Here is how much of TeX's memory you used:
- 12516 strings out of 478287
- 202397 string characters out of 5849289
- 499711 words of memory out of 5000000
- 30510 multiletter control sequences out of 15000+600000
+ 12502 strings out of 478287
+ 202130 string characters out of 5849289
+ 499105 words of memory out of 5000000
+ 30499 multiletter control sequences out of 15000+600000
  474902 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,13n,77p,1890b,505s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on infomre_AVS.pdf (6 pages, 382592 bytes).
+Output written on infomre_AVS.pdf (5 pages, 380543 bytes).
 PDF statistics:
- 219 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
+ 211 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 
