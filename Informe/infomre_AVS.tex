@@ -117,16 +117,23 @@ Fem servir el mètode d'Euler Explícit amb diversos mallats per trobar la distr
 \section{Comparació entre solucions}
 
 \section{Solució del problema d'IVS}
-Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar eficientment al pacient, farem servir Crank-Nicolson per solucionar l'equació de difusió. Amb aquest mètode, anem trobant iterativament la distribució de temperatura per a un temps creixent. En cada iteració avaluem les temperatures cercant el tractament més eficient possible. Per aconseguir això, a cada distribució de temperatura per una mateixa posició temporal imposem diverses condicions. \\ Primerament que en cap posició espacial pel temps t s'arribi a una temperatura superior o igual a 80ºC. Segonament, que cap part de la regió sana (per $x\in(0,0.75) \cup (1.25,2)$ en cm) arribi o superi els 50ºC. Imposant aquestes dues condicions iterativament arribem a un temps màxim en el qual es compleixen. Amb aquest temps, ens assegurem que per aquest i temps menors el tractament no serà perillós pel pacient. Ara, cerquem que la màxima regió de teixit malalt estigui entre 50ºC i 80ºC. Com hem imposat que en la frontera entre teixits ($x =0.75cm$ i $x=1.25cm$) s'arribes a la temperatura màxima però inferior a 50ºC, tot el teixit malalt es trobara a una temperatura superior. Llavors, la regió més externa del teixit malalt arriba com a mínim a 50ºC en el temps màxim que hem trobat. Això es pot comprovar en la figura \ref{fig:solucion_ivs}, on en vermell es mostra la frontera entre el teixit malalt i el saludable. 
+Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar eficientment al pacient, farem servir Crank-Nicolson per solucionar l'equació de difusió. Amb aquest mètode, anem trobant iterativament la distribució de temperatura per a un temps creixent. En cada iteració avaluem les temperatures cercant el tractament més eficient possible. Per aconseguir això, a cada distribució de temperatura per una mateixa posició temporal imposem diverses condicions. \\ Primerament que en cap posició espacial pel temps t s'arribi a una temperatura superior o igual a 80ºC. Segonament, que cap part de la regió sana (per $x\in(0,0.75) \cup (1.25,2)$ en cm) arribi o superi els 50ºC. Imposant aquestes dues condicions iterativament arribem a un temps màxim en el qual es compleixen. Amb aquest temps, ens assegurem que per aquest i temps menors el tractament no serà perillós pel pacient. Ara, cerquem que la màxima regió de teixit malalt estigui entre 50ºC i 80ºC. Com hem imposat que en la frontera entre teixits ($x =0.75cm$ i $x=1.25cm$) s'arribes a la temperatura màxima però inferior a 50ºC, tot el teixit malalt es trobara a una temperatura superior. Llavors, la regió més externa del teixit malalt arriba com a mínim a 50ºC en el temps màxim que hem trobat. Això es pot comprovar en la figura \ref{fig:solucion_ivs}, on en vermell es mostra la frontera entre el teixit malalt i el saludable. La figura mostra la distribució de la temperatura pel temps $t =  63.17$ que es la nostra proposta com a temps més eficient i que compleix les condicions imposades. Entre les franjes vermelles es troba el teixit malalt, que podem comprovar que es trobara per damunt de 50ºC, i per fora de les franjes s'observa el teixit saludable que no supera els 50ºC.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\linewidth]{images/solucion_IVS-2D.png}
-    \caption{Distribució de temperatura per al temps màxim trobat de 0.589 segons}
+    \caption{Distribució de temperatura per al temps màxim trobat de 63.17 segons}
     \label{fig:solucion_ivs}
 \end{figure}
 
 \section{Conclusions}
+En esta práctica, hemos modelado el proceso de ablación cardíaca IVS para evaluar su eficacia y %
+seguridad utilizando diferentes métodos numéricos. A partir de la solución analítica de la ecuación de difusión de calor y las simulaciones numéricas implementadas con métodos explícitos, implícitos y de Crank-Nicolson, se logró determinar el tiempo óptimo de aplicación del tratamiento eléctrico que satisface las condiciones de seguridad requeridas: mantener el tejido sano por debajo de los 50 ºC, evitar que cualquier punto alcance los 80 ºC, y asegurar que la mayor parte del tejido enfermo permanezca entre los 50 ºC y los 80 ºC.
+
+Los resultados numéricos muestran que el método de Crank-Nicolson ofrece un equilibrio óptimo entre precisión y estabilidad, superando las limitaciones de los métodos explícito e implícito en cuanto a oscilaciones o sobrecostos computacionales. De este modo, se determinó que el tiempo ideal para este procedimiento es de 192.78 segundos, garantizando un tratamiento eficiente y seguro.
+
+Finalmente, esta práctica demuestra la utilidad de las técnicas de modelado y simulación numérica en contextos médicos, brindando herramientas para mejorar la comprensión y la implementación de procedimientos clínicos.
+
 \section{Annex}\label{Annex I}
 \subsection{Solució analítica}
 Sigui una equació del tipus
