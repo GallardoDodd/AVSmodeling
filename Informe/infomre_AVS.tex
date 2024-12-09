@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{graphicx}
-
+\usepackage{subcaption}
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{blindtext}
@@ -28,6 +28,8 @@
     $\begin{matrix} 
     \text{Miguel A.} \hspace{1.5cm} & \text{Daniel G.} & \hspace{1.5cm} \text{Gerard B.}\\1637738 \hspace{1.5cm} & 1666471 & \hspace{1.5cm} 1670235
     \end{matrix}$
+
+    
 \end{center}
 \section{Introducció i problema}
 Una ablació cardíaca IVS és una cirugia simple que s'aplica a pacients que pateixen arritmies i que reaccionen negativament a tractaments amb fàrmacs. De forma simplificada, aquesta intervenció consisteix en introduïr electrodes de polaritat oposada i local·litzar-los al cor sobre el teixit malalt. L'objectiu és fer servir l'efecte Joule per a escalfar el teixit malalt i provocar-ne la mort cel·lular de forma local. A l'hora d'aplicar aquest procediment quirúrgic cal tenir en compte algunes precaucions. La regió de teixit malalt ha d'estar entre els \(50\,\text{ºC}\) i \(80\,\text{ºC}\), la regió sana no ha de superar els \(50\,\text{ºC}\) i cap regió ha de sobrepassar els \(80\,\text{ºC}\).\\\\
@@ -55,65 +57,168 @@ on $\sigma$ és la conductivitat elèctrica del teixit i $D$ i $\Delta \phi$ son
 \end{equation*}
 A partir de definir
 \begin{equation*}
-    T = aT' \hspace{0.3cm} \text{,} \hspace{0.3cm} t = bt' \hspace{0.3cm} \text{,} \hspace{0.3cm} z = cz'
+    T = T_c \tilde{T} \hspace{0.3cm} \text{,} \hspace{0.3cm} t = \frac{T_c \kappa}{\alpha P_{\text{ext}}}\tilde{t} \hspace{0.3cm} \text{,} \hspace{0.3cm} z = \sqrt{\frac{T_c \kappa}{P_{\text{ext}}}}\tilde{z}
 \end{equation*}
 Trobem l'equació normalitzada que farem servir per a resoldre el nostre problema:
-\begin{equation*}\label{EDP_norm}
-    \frac{\partial T'}{\partial t'} = \frac{\partial ^2 T'}{\partial z'^2} + 1 
-\end{equation*}
+\begin{equation}\label{EDP_norm}
+    \frac{\partial \tilde{T}}{\partial \tilde{t}} = \frac{\partial ^2 \tilde{T}}{\partial \tilde{z}^2} + 1 
+\end{equation}
 \section{Solució analítica de la EDP}
 Com hem dit, els següents apartats els dedicarem a resoldre l'equació diferencial en derivades parcials \eqref{EDP_norm}. Notem que aquesta equació té solució analítica. Al resoldre l'equació seguint el procediment que s'observa a l'Annex \ref{Annex I} obtenim la següent solució normalitzada:
 \begin{equation*}
-    T'(x,t) = T_c' + \sum_{i=0}^{\infty} \frac{ 1-e^{-(2n+1)^2 pi^2 t}}{(2n+1)^3\pi^3}\cdot 4sin((2n+1)\pi x)
+    \tilde{T}(x,t) = T_c + \sum_{i=0}^{\infty} \frac{ 1-e^{-(2n+1)^2 \pi^2 \tilde{t}}}{(2n+1)^3\pi^3}\cdot 4\sin((2n+1)\pi \tilde{z})
 \end{equation*}
 
+\section{Solucions numèriques}
+\subsection{Euler Explícit}
+Fem servir el mètode d'Euler Explícit amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit}, s'exposa el resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
 
-\section{Solució numèrica: Euler Explícit}
-Fem servir el mètode d'Euler Explícit amb diversos mallats per trobar la distribució de temperatures en $t=0.025$. En la Taula 1, s'exposa el resultat amb el mallat 0,51 i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la ximplesa del mètode i fer servir un pas temporal massa gran.  En la Taula 2 i 3 s'exposa el resultat pel mallat de 0,49 i 0,25. Notem que per mallats menors a 0,5 desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
-
-
-\begin{table}[h]
+\begin{figure}[h]
     \centering
-    \caption{Resultats pel mallat de 0.51 amb Euler Explícit}
-    \label{tab:euler_at1}
-    \begin{tabular}{cc}
-        \includegraphics[width=0.4\textwidth]{images/T_vs_z_at1.png} &
-        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
-        
-        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.51 en t=0.025 fent servir el mètode d'euler} &
-        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució analítica) pel mallat 0.51 en t=0.025 fent servir el mètode d'euler} \\
- 
-    \end{tabular}
-\end{table}
-\begin{table}[h]
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:euler_exp_at1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:euler_exp_at2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at3.png}
+        \caption{} 
+        \label{fig:euler_exp_at2}
+    \end{subfigure}
+    \caption{a) Solució pel mallat 0.51 en t=0.025 fent servir el mètode d'euler. b) Solució pel mallat 0.49 en t=0.025 fent servir el mètode. c)Solució pel mallat 0.25 en t=0.025 fent servir el mètode}
+    \label{fig:euler_explicit}
+\end{figure}
+\begin{figure}[h]
     \centering
-    \caption{Resultats pel mallat de 0.49 amb Euler Explícit}
-    \label{tab:euler_at1}
-    \begin{tabular}{cc}
-        \includegraphics[width=0.4\textwidth]{images/T_vs_z_at2.png} &
-        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
-        
-        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.49 en t=0.025 fent servir el mètode d'euler} &
-        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució analítica) pel mallat 0.49 en t=0.025 fent servir el mètode d'euler} \\
- 
-    \end{tabular}
-\end{table}
-\begin{table}[h]
-    \centering
-    \caption{Resultats pel mallat de 0.51 amb Euler Explícit}
-    \label{tab:euler_at1}
-    \begin{tabular}{cc}
-        \includegraphics[width=0.4\textwidth]{images/T_vs_z_at3.png} &
-        \includegraphics[width=0.4\textwidth]{imagen2.jpg} \\
-        
-        \parbox{0.4\textwidth}{\centering Solució pel mallat 0.25 en t=0.025 fent servir el mètode d'euler} &
-        \parbox{0.4\textwidth}{\centering Error numèric (respecte a la solució anakítica) pel mallat 0.25 en t=0.025 fent servir el mètode d'euler} \\
- 
-    \end{tabular}
-\end{table}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:err_euler_exp_at1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:err_euler_exp_at2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at3.png}
+        \caption{} 
+        \label{fig:err_euler_exp_at2}
+    \end{subfigure}
+    \caption{Error numèric respecte la solució analítica per al mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$}
+    \label{fig:err_euler_explicit}
+\end{figure}
 
-\section{Solució numèrica: Euler Implícit}
-\section{Solució numèrica: Crank-Nicolson}
+\subsection{Euler Implícit}
+Fem servir el mètode d'Euler implícit per a resoldre l'equació normalitzada \eqref{EDP_norm}. Discretitzant la derivada temporal per l'esquerra arribem a la següent expressió
+\begin{equation}\label{disc_eu_imp}
+    \tilde{T}_{j}^{i-1} = -\gamma \tilde{T}_{j+1}^{i} + (1+2\gamma)\tilde{T}_{j}^{i} - \gamma\tilde{T}_{j-1}^{i} - \Delta t
+\end{equation}
+Podem reescriure aquesta expressio en forma matricial
+\begin{equation*}
+    \vec{T}_{i-1} = \mathbb{M}\vec{T}_{i} + \vec{b}
+\end{equation*}
+on aïllem el terme $\vec{T}_i$ per a poder iterar i on definim
+\begin{equation*}
+    \vec{T}_{i} = \begin{matrix} ( \tilde{T}_{2}^{i} & \dots & \tilde{T}_{N-1}^{i} )^{\text{t}} \end{matrix} \hspace{4 mm} \text{,} \hspace{4 mm} \vec{b} = \begin{matrix} ( -(T_c + \Delta t) & -\Delta t &\dots&-\Delta t & -(T_c + \Delta t) )^{\text{t}} \end{matrix} 
+\end{equation*}
+\begin{equation*}
+    \mathbb{M} = \text{tridiag}(-\gamma,1+2\gamma,-\gamma)
+\end{equation*}
+és a dir, el vector $\vec{T}_{i}$ emmagatzema tots els punts espaials de $\tilde{T}$ al temps $i$ sense tenir en compte les condicions de contorn. Aquestes es troben de forma implícita al vector $\vec{b}$. La matriu $\mathbb{M}$ és una matriu tridiagonal, on segons aquesta notació la diagonal inferior correspon a la primera entrada $-\gamma$, la diagonal principal a la segona entrada $(1+2\gamma)$ i la tercera entrada a la diagonal superior, $-\gamma$.\\\\
+Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \ref{fig:euler_implicit} i Fig. \ref{fig:err_euler_implicit}.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:euler_imp_at1}
+    \end{subfigure}
+    \hspace{1.5cm}
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:euler_imp_at2}
+    \end{subfigure}
+    \caption{Solució numèrica pel mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
+    \label{fig:euler_implicit}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:err_euler_imp_at1}
+    \end{subfigure}
+    \hspace{1.5cm}
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:err_euler_imp_at2}
+    \end{subfigure}
+    \caption{Error numèric respecte a la solució analítica pel mallat 0.51 (a) i 0.49 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
+    \label{fig:err_euler_implicit}
+\end{figure}
+\subsection{Crank-Nicolson}
+Fem servir ara l'esquema de Crank-Nicholson per a resoldre l'equació \eqref{EDP_norm}. Tornant a discretitzar la derivada temporal per la dreta i fent una mitjana de la segonda derivada entre $i$ i $(i+1)$ obtenim la relació de recurrència
+\begin{equation*}
+    -\gamma\tilde{T}_{j+1}^{i+1} + (2+2\gamma)\tilde{T}_{j}^{i+1} - \gamma \tilde{T}_{j-1}^{i+1} = \gamma \tilde{T}_{j+1}^{i} + (2-2\gamma)\tilde{T}_{j}^{i} + \gamma \tilde{T}_{j-1}^{i} - 2\Delta t
+\end{equation*}
+Podem escriure cada banda de la igualtat en forma matricial, obtenint
+\begin{equation*}
+    \vec{a} + \mathbb{A} \vec{T}_{i+1} = \vec{b} + \mathbb{B}\vec{T}_{i} \hspace{4 mm} \Rightarrow \hspace{4 mm} \vec{T}_{i+1} = \mathbb{A}^{-1}(\vec{c}+\mathbb{B}\vec{T}_{i})
+\end{equation*}
+on definim els vectors $\vec{T}_{i}$ i $\vec{T}_{i+1}$ de la mateixa manera que al aplicar Euler implícit i on definim
+\begin{equation*}
+    \vec{a} = \begin{matrix} (-\gamma T_c & 0 & \dots & 0 & -\gamma T_c)^{\text{t}}\end{matrix} \hspace{4 mm} \text{,} \hspace{4 mm} \vec{b} = \begin{matrix} (\gamma T_c + 2\Delta t & 2\Delta t & \dots & 2\Delta t & \gamma T_c + 2\Delta t)^{\text{t}} \end{matrix} \hspace{4 mm} \text{,} \hspace{4 mm} \vec{c} = \vec{b} - \vec{a}
+\end{equation*}
+\begin{equation*}
+    \mathbb{A} = \text{tridiag}(-\gamma,2+2\gamma,-\gamma) \hspace{4 mm} \text{,} \hspace{4 mm} \mathbb{B} = \text{tridiag}(\gamma,2-2\gamma,\gamma)
+\end{equation*}
+Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_nicholson} i Fig. \ref{err_crank_nicholson}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:CN_at1}
+    \end{subfigure}
+    \hspace{1.5cm}
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:CN_at2}
+    \end{subfigure}
+    \caption{Solució numèrica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
+    \label{fig:crank_nicholson}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \caption{}
+        \label{fig:err_CN_at1}
+    \end{subfigure}
+    \hspace{1.5cm}
+    \begin{subfigure}[b]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \caption{} 
+        \label{fig:err_CN_at2}
+    \end{subfigure}
+    \caption{Error respecte a la solució aalítica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
+    \label{fig:crank_nicholson}
+\end{figure}
+
+
 \section{Comparació entre solucions}
 
 \section{Solució del problema d'IVS}
