@@ -76,7 +76,8 @@ Discretitzant la derivada temporal per la dreta obtenim la relació de recurrèn
 \begin{equation*}
     \tilde{T}_{j}^{i+1} = \gamma (\tilde{T}_{j+1}^{i}-2\tilde{T}_{j}^{i}+\tilde{T}_{j-1}^{i}) + \tilde{T}_{j}^{i} + \Delta \tilde{t}
 \end{equation*}
-Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit} i Fig. \ref{fig:err_euler_explicit} s'exposen les gràfiques $\tilde{T}$ vs $\tilde{z}$ i les comparacions de l'error per a cada mallat. el resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
+on definim $gamma = \Delta \tilde{t}/(\Delta \tilde{z})^2$ Diferents valors de $\gamma$ ens porten a diferents mallats i pot influir a l'estabilitat dels diferents mètodes numèrics que podem aplicar.\\\\
+Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit} i Fig. \ref{fig:err_euler_explicit} s'exposen les gràfiques $\tilde{T}$ vs $\tilde{z}$ i les comparacions de l'error per a cada mallat. El resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
 
 \begin{figure}[h]
     \centering
@@ -97,29 +98,29 @@ Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats pe
         \caption{} 
         \label{fig:euler_exp_at2}
     \end{subfigure}
-    \caption{a) Solució pel mallat 0.51 en t=0.025 fent servir el mètode d'euler. b) Solució pel mallat 0.49 en t=0.025 fent servir el mètode. c)Solució pel mallat 0.25 en t=0.025 fent servir el mètode}
+    \caption{Solució numèrica pel mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $t=0.025$ fent servir el mètode d'Euler explícit.}
     \label{fig:euler_explicit}
 \end{figure}
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \includegraphics[width=\textwidth]{images/Error_vs_pos_at1.png} 
         \caption{}
         \label{fig:err_euler_exp_at1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \includegraphics[width=\textwidth]{images/Error_vs_pos_at2.png}
         \caption{} 
         \label{fig:err_euler_exp_at2}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at3.png}
+        \includegraphics[width=\textwidth]{images/Error_vs_pos_at3.png}
         \caption{} 
         \label{fig:err_euler_exp_at2}
     \end{subfigure}
-    \caption{Error numèric respecte la solució analítica per al mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$}
+    \caption{Error numèric del mètode d'Euler explícit respecte la solució analítica per al mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$}
     \label{fig:err_euler_explicit}
 \end{figure}
 
@@ -144,17 +145,17 @@ Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \includegraphics[width=\textwidth]{images/T_vs_z_imp_at1.png} 
         \caption{}
         \label{fig:euler_imp_at1}
     \end{subfigure}
     \hspace{1.5cm}
     \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \includegraphics[width=\textwidth]{images/T_vs_z_imp_at2.png}
         \caption{} 
         \label{fig:euler_imp_at2}
     \end{subfigure}
-    \caption{Solució numèrica pel mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
+    \caption{Solució numèrica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
     \label{fig:euler_implicit}
 \end{figure}
 \begin{figure}[h]
@@ -170,7 +171,7 @@ Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \
         \caption{} 
         \label{fig:err_euler_imp_at2}
     \end{subfigure}
-    \caption{Error numèric respecte a la solució analítica pel mallat 0.51 (a) i 0.49 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
+    \caption{Error numèric del mètode d'Euler implícit respecte a la solució analítica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode d'Euler implícit.}
     \label{fig:err_euler_implicit}
 \end{figure}
 \subsection{Crank-Nicolson}
@@ -193,17 +194,17 @@ Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at1.png} 
+        \includegraphics[width=\textwidth]{images/T_vs_z_CN_at1.png} 
         \caption{}
         \label{fig:CN_at1}
     \end{subfigure}
     \hspace{1.5cm}
     \begin{subfigure}[b]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{images/T_vs_z_at2.png}
+        \includegraphics[width=\textwidth]{images/T_vs_z_CN_at2.png}
         \caption{} 
         \label{fig:CN_at2}
     \end{subfigure}
-    \caption{Solució numèrica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
+    \caption{Solució numèrica pel mallat 1.0 (a) i 0.5 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
     \label{fig:crank_nicholson}
 \end{figure}
 \begin{figure}[h]
@@ -219,7 +220,7 @@ Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_
         \caption{} 
         \label{fig:err_CN_at2}
     \end{subfigure}
-    \caption{Error respecte a la solució aalítica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
+    \caption{Error respecte a la solució analítica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
     \label{fig:crank_nicholson}
 \end{figure}
 
