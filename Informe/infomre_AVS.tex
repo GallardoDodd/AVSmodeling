@@ -32,6 +32,10 @@
 
     
 \end{center}
+El programari d'aquesta pràctica es troba pujat a GitHub, dins del següent repositori:
+\begin{center}
+    \url{https://github.com/GallardoDodd/IVSmodeling}
+\end{center}
 \section{Introducció i problema}
 Una ablació cardíaca IVS és una cirugia simple que s'aplica a pacients que pateixen arritmies i que reaccionen negativament a tractaments amb fàrmacs. De forma simplificada, aquesta intervenció consisteix en introduïr electrodes de polaritat oposada i local·litzar-los al cor sobre el teixit malalt. L'objectiu és fer servir l'efecte Joule per a escalfar el teixit malalt i provocar-ne la mort cel·lular de forma local. A l'hora d'aplicar aquest procediment quirúrgic cal tenir en compte algunes precaucions. La regió de teixit malalt ha d'estar entre els \(50\,\text{ºC}\) i \(80\,\text{ºC}\), la regió sana no ha de superar els \(50\,\text{ºC}\) i cap regió ha de sobrepassar els \(80\,\text{ºC}\).\\\\
 A aquesta pràctica intentarem modelitzar aquest procediment realitzant diferents aproximacions i tenint en compte algunes restriccions. Trobarem una solució analítica al problema i la commpararem amb diverses solucions numèriques simulades amb Fortran.\\\\
@@ -77,7 +81,7 @@ Discretitzant la derivada temporal per la dreta obtenim la relació de recurrèn
     \tilde{T}_{j}^{i+1} = \gamma (\tilde{T}_{j+1}^{i}-2\tilde{T}_{j}^{i}+\tilde{T}_{j-1}^{i}) + \tilde{T}_{j}^{i} + \Delta \tilde{t}
 \end{equation*}
 on definim $gamma = \Delta \tilde{t}/(\Delta \tilde{z})^2$ Diferents valors de $\gamma$ ens porten a diferents mallats i pot influir a l'estabilitat dels diferents mètodes numèrics que podem aplicar.\\\\
-Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit} i Fig. \ref{fig:err_euler_explicit} s'exposen les gràfiques $\tilde{T}$ vs $\tilde{z}$ i les comparacions de l'error per a cada mallat. El resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
+Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit} i Fig. \ref{fig:err_euler_explicit} s'exposen les gràfiques $\tilde{T}$ vs $\tilde{z}$ i les comparacions de l'error per a cada mallat. Trobem el resultat amb el mallat $0.51$ a la Fig. \ref{fig:euler_exp_at1} i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at2} i Fig. \ref{fig:euler_exp_at3} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
 
 \begin{figure}[h]
     \centering
@@ -96,7 +100,7 @@ Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats pe
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[width=\textwidth]{images/T_vs_z_at3.png}
         \caption{} 
-        \label{fig:euler_exp_at2}
+        \label{fig:euler_exp_at3}
     \end{subfigure}
     \caption{Solució numèrica pel mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $t=0.025$ fent servir el mètode d'Euler explícit.}
     \label{fig:euler_explicit}
@@ -118,14 +122,14 @@ Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats pe
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[width=\textwidth]{images/Error_vs_pos_at3.png}
         \caption{} 
-        \label{fig:err_euler_exp_at2}
+        \label{fig:err_euler_exp_at3}
     \end{subfigure}
     \caption{Error numèric del mètode d'Euler explícit respecte la solució analítica per al mallat 0.51 (a), 0.49 (b) i 0.25 (c) a $\tilde{t}=0.025$}
     \label{fig:err_euler_explicit}
 \end{figure}
 
 \subsection{Euler Implícit}
-Fem servir el mètode d'Euler implícit per a resoldre l'equació normalitzada \eqref{EDP_norm}. Discretitzant la derivada temporal per l'esquerra arribem a la següent expressió
+Fem servir el mètode d'Euler implícit \cite{Navau2024} per a resoldre l'equació normalitzada \eqref{EDP_norm}. Discretitzant la derivada temporal per l'esquerra arribem a la següent expressió
 \begin{equation}\label{disc_eu_imp}
     \tilde{T}_{j}^{i-1} = -\gamma \tilde{T}_{j+1}^{i} + (1+2\gamma)\tilde{T}_{j}^{i} - \gamma\tilde{T}_{j-1}^{i} - \Delta t
 \end{equation}
@@ -175,7 +179,7 @@ Fent les iteracions corresponents obtenim les figures que s'observen a la Fig. \
     \label{fig:err_euler_implicit}
 \end{figure}
 \subsection{Crank-Nicolson}
-Fem servir ara l'esquema de Crank-Nicholson per a resoldre l'equació \eqref{EDP_norm}. Tornant a discretitzar la derivada temporal per la dreta i fent una mitjana de la segonda derivada entre $i$ i $(i+1)$ obtenim la relació de recurrència
+Fem servir ara l'esquema de Crank-Nicholson per a resoldre l'equació \eqref{EDP_norm} \cite{Navau2024}. Tornant a discretitzar la derivada temporal per la dreta i fent una mitjana de la segonda derivada entre $i$ i $(i+1)$ obtenim la relació de recurrència
 \begin{equation*}
     -\gamma\tilde{T}_{j+1}^{i+1} + (2+2\gamma)\tilde{T}_{j}^{i+1} - \gamma \tilde{T}_{j-1}^{i+1} = \gamma \tilde{T}_{j+1}^{i} + (2-2\gamma)\tilde{T}_{j}^{i} + \gamma \tilde{T}_{j-1}^{i} - 2\Delta t
 \end{equation*}
@@ -190,7 +194,7 @@ on definim els vectors $\vec{T}_{i}$ i $\vec{T}_{i+1}$ de la mateixa manera que 
 \begin{equation*}
     \mathbb{A} = \text{tridiag}(-\gamma,2+2\gamma,-\gamma) \hspace{4 mm} \text{,} \hspace{4 mm} \mathbb{B} = \text{tridiag}(\gamma,2-2\gamma,\gamma)
 \end{equation*}
-Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_nicholson} i Fig. \ref{err_crank_nicholson}
+Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_nicholson} i Fig. \ref{fig:err_crank_nicholson}
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.35\textwidth}
@@ -221,11 +225,11 @@ Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_
         \label{fig:err_CN_at2}
     \end{subfigure}
     \caption{Error respecte a la solució analítica pel mallat 0.51 (a) i 0.25 (b) a $\tilde{t}=0.025$ fent servir el mètode de Crank-Nicholson.}
-    \label{fig:crank_nicholson}
+    \label{fig:err_crank_nicholson}
 \end{figure}
 
 \section{Solució del problema d'IVS}
-Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar eficientment al pacient, farem servir Crank-Nicolson per solucionar l'equació de difusió. Amb aquest mètode, anem trobant iterativament la distribució de temperatura per a un temps creixent. En cada iteració avaluem les temperatures cercant el tractament més eficient possible. Per aconseguir això, a cada distribució de temperatura per una mateixa posició temporal imposem diverses condicions. \\ Primerament que en cap posició espacial pel temps t s'arribi a una temperatura superior o igual a 80ºC. Segonament, que cap part de la regió sana (per $x\in(0,0.75) \cup (1.25,2)$ en cm) arribi o superi els 50ºC. Imposant aquestes dues condicions iterativament arribem a un temps màxim en el qual es compleixen. Amb aquest temps, ens assegurem que per aquest i temps menors el tractament no serà perillós pel pacient. Ara, cerquem que la màxima regió de teixit malalt estigui entre 50ºC i 80ºC. Com hem imposat que en la frontera entre teixits ($x =0.75cm$ i $x=1.25cm$) s'arribes a la temperatura màxima però inferior a 50ºC, tot el teixit malalt es trobara a una temperatura superior. Llavors, la regió més externa del teixit malalt arriba com a mínim a 50ºC en el temps màxim que hem trobat. Això es pot comprovar en la figura \ref{fig:solucion_ivs}, on en vermell es mostra la frontera entre el teixit malalt i el saludable. La figura mostra la distribució de la temperatura pel temps $t =  63.17$ que es la nostra proposta com a temps més eficient i que compleix les condicions imposades. Entre les franjes vermelles es troba el teixit malalt, que podem comprovar que es trobara per damunt de 50ºC, i per fora de les franjes s'observa el teixit saludable que no supera els 50ºC.
+Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar eficientment al pacient, farem servir Crank-Nicolson per solucionar l'equació de difusió. Amb aquest mètode, anem trobant iterativament la distribució de temperatura per a un temps creixent. En cada iteració avaluem les temperatures cercant el tractament més eficient possible. Per aconseguir això, a cada distribució de temperatura per una mateixa posició temporal imposem diverses condicions.\\\\ Primerament que en cap posició espacial pel temps t s'arribi a una temperatura superior o igual a 80ºC. Segonament, que cap part de la regió sana (per $x\in(0,0.75) \cup (1.25,2)$ en cm) arribi o superi els 50ºC. Imposant aquestes dues condicions iterativament arribem a un temps màxim en el qual es compleixen. Amb aquest temps, ens assegurem que per aquest i temps menors el tractament no serà perillós pel pacient. Ara, cerquem que la màxima regió de teixit malalt estigui entre 50ºC i 80ºC. Com hem imposat que en la frontera entre teixits ($x =0.75cm$ i $x=1.25cm$) s'arribes a la temperatura màxima però inferior a 50ºC, tot el teixit malalt es trobara a una temperatura superior. Llavors, la regió més externa del teixit malalt arriba com a mínim a 50ºC en el temps màxim que hem trobat. Això es pot comprovar en la figura \ref{fig:solucion_ivs}, on en vermell es mostra la frontera entre el teixit malalt i el saludable. La figura mostra la distribució de la temperatura pel temps $t =  63.17$ que es la nostra proposta com a temps més eficient i que compleix les condicions imposades. Entre les franjes vermelles es troba el teixit malalt, que podem comprovar que es trobara per damunt de 50ºC, i per fora de les franjes s'observa el teixit saludable que no supera els 50ºC.
 
 \begin{figure}[h]
     \centering
@@ -237,7 +241,6 @@ Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar
 \section{Conclusions}
 En esta práctica, hemos modelado el proceso de ablación cardíaca IVS para evaluar su eficacia y %
 seguridad utilizando diferentes métodos numéricos. A partir de la solución analítica de la ecuación de difusión de calor y las simulaciones numéricas implementadas con métodos explícitos, implícitos y de Crank-Nicolson, se logró determinar el tiempo óptimo de aplicación del tratamiento eléctrico que satisface las condiciones de seguridad requeridas: mantener el tejido sano por debajo de los 50 ºC, evitar que cualquier punto alcance los 80 ºC, y asegurar que la mayor parte del tejido enfermo permanezca entre los 50 ºC y los 80 ºC.
-
 Los resultados numéricos muestran que el método de Crank-Nicolson ofrece un equilibrio óptimo entre precisión y estabilidad, superando las limitaciones de los métodos explícito e implícito en cuanto a oscilaciones o sobrecostos computacionales. De este modo, se determinó que el tiempo ideal para este procedimiento es de 192.78 segundos, garantizando un tratamiento eficiente y seguro.
 
 Finalmente, esta práctica demuestra la utilidad de las técnicas de modelado y simulación numérica en contextos médicos, brindando herramientas para mejorar la comprensión y la implementación de procedimientos clínicos.
