@@ -34,7 +34,7 @@ DO j=1,Nat1-1
 end DO
 
 !Guardamos los datos en archivos para luego graficar
-PRINT *,"> Open temperatura_at2"
+PRINT *,"> Open temperatura_at1"
 open(unit=10, file='temperatura_at1.txt', status='replace', action='write')
 PRINT *,"> Open dades_2D_at1"
 open(unit=20,file='dades_2D_at1.txt',status='replace',action='write')
@@ -65,7 +65,7 @@ end DO
 DO i=1,N
     WRITE(30, '(F10.6,F10.6)') xlin(i), T_err(i,Nat1) !Datos gráfico error numèrico en y=0.025
 END DO
-print *, T_an
+!print *, T_an
 close(30)
 close(10)
 PRINT *,"> 'temperatura_at1' closed correctly"
