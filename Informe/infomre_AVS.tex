@@ -239,11 +239,16 @@ Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar
 \end{figure}
 
 \section{Conclusions}
-En esta práctica, hemos modelado el proceso de ablación cardíaca IVS para evaluar su eficacia y %
-seguridad utilizando diferentes métodos numéricos. A partir de la solución analítica de la ecuación de difusión de calor y las simulaciones numéricas implementadas con métodos explícitos, implícitos y de Crank-Nicolson, se logró determinar el tiempo óptimo de aplicación del tratamiento eléctrico que satisface las condiciones de seguridad requeridas: mantener el tejido sano por debajo de los 50 ºC, evitar que cualquier punto alcance los 80 ºC, y asegurar que la mayor parte del tejido enfermo permanezca entre los 50 ºC y los 80 ºC.
-Los resultados numéricos muestran que el método de Crank-Nicolson ofrece un equilibrio óptimo entre precisión y estabilidad, superando las limitaciones de los métodos explícito e implícito en cuanto a oscilaciones o sobrecostos computacionales. De este modo, se determinó que el tiempo ideal para este procedimiento es de 192.78 segundos, garantizando un tratamiento eficiente y seguro.
+En aquesta pràctica, hem modelat el procés d'ablació cardíaca IVS per avaluar-ne l'eficàcia i la seguretat. %
+Primerament, hem modelat el sistema utilitzant diferents mètodes numèrics. A partir de la solució analítica de l'equació de difusió de calor i %
+les simulacions numèriques implementades amb mètodes explícits, implícits i de Crank-Nicolson, s'ha determinat l'error numèric per cada cas. %
+Aquests resultats numèrics mostren que el mètode de Crank-Nicolson ofereix un equilibri òptim entre precisió i estabilitat, i el seleccionem com el millor dels mètodes per trobar la solució de l'EDP que modela el procès d'ablació cardíaca.%
+Amb això, evitem les limitacions dels mètodes explícit i implícit pel que fa a oscil·lacions o sobrecostos computacionals.
 
-Finalmente, esta práctica demuestra la utilidad de las técnicas de modelado y simulación numérica en contextos médicos, brindando herramientas para mejorar la comprensión y la implementación de procedimientos clínicos.
+Implementant l'esquema, calculem el temps òptim d'aplicació del tractament elèctric que satisfà les condicions de seguretat requerides: %
+mantenir el teixit sa per sota dels 50 ºC, evitar que qualsevol punt assoleixi els 80 ºC, i assegurar que la major %
+part del teixit malalt es mantingui entre els 50 ºC i els 80 ºC. D'aquesta manera, s'ha determinat que el temps ideal per a aquest procediment és de 63.17 segons, garantint un tractament eficient i segur.
+>>>>>>> e767086244bf8b8a3fe659d184616e7c343f7da5
 
 \section{Annex}\label{Annex I}
 \subsection{Solució analítica}
