@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{cite}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amssymb}
@@ -23,7 +24,7 @@
 \begin{center}
     {\LARGE \textsc{Pràctica 1: Modelització del tractament}}\\ 
     \vspace{0.2cm}
-    {\LARGE \textsc{d'abalció cardíaca IVS}}\\ 
+    {\LARGE \textsc{d'ablació cardíaca IVS}}\\ 
     \vspace{0.2cm}
     $\begin{matrix} 
     \text{Miguel A.} \hspace{1.5cm} & \text{Daniel G.} & \hspace{1.5cm} \text{Gerard B.}\\1637738 \hspace{1.5cm} & 1666471 & \hspace{1.5cm} 1670235
@@ -71,7 +72,11 @@ Com hem dit, els següents apartats els dedicarem a resoldre l'equació diferenc
 
 \section{Solucions numèriques}
 \subsection{Euler Explícit}
-Fem servir el mètode d'Euler Explícit amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit}, s'exposa el resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
+Discretitzant la derivada temporal per la dreta obtenim la relació de recurrència:
+\begin{equation*}
+    \tilde{T}_{j}^{i+1} = \gamma (\tilde{T}_{j+1}^{i}-2\tilde{T}_{j}^{i}+\tilde{T}_{j-1}^{i}) + \tilde{T}_{j}^{i} + \Delta \tilde{t}
+\end{equation*}
+Fem servir el mètode d'Euler Explícit \cite{Navau2024} amb diversos mallats per trobar la distribució de temperatures en $\tilde{t}=0.025$. En la Fig. \ref{fig:euler_explicit} i Fig. \ref{fig:err_euler_explicit} s'exposen les gràfiques $\tilde{T}$ vs $\tilde{z}$ i les comparacions de l'error per a cada mallat. el resultat amb el mallat $0.51$ i es pot observar com la solució oscil·la en forma de "dents de serra". Això és la inestabilitat numèrica degut a la simplesa del mètode i fer servir un pas temporal massa gran.  En la Fig. \ref{fig:euler_exp_at1} i Fig. \ref{fig:euler_exp_at2} s'exposa el resultat pel mallat de $0.49$ i $0.25$. Notem que per mallats menors a $0.5$ desapareixen les fluctuacions i la solució de l'equació de difusió es fa estable.
 
 \begin{figure}[h]
     \centering
@@ -218,9 +223,6 @@ Aplicant les respectives iteracions obtenim els plots de la Fig. \ref{fig:crank_
     \label{fig:crank_nicholson}
 \end{figure}
 
-
-\section{Comparació entre solucions}
-
 \section{Solució del problema d'IVS}
 Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar eficientment al pacient, farem servir Crank-Nicolson per solucionar l'equació de difusió. Amb aquest mètode, anem trobant iterativament la distribució de temperatura per a un temps creixent. En cada iteració avaluem les temperatures cercant el tractament més eficient possible. Per aconseguir això, a cada distribució de temperatura per una mateixa posició temporal imposem diverses condicions. \\ Primerament que en cap posició espacial pel temps t s'arribi a una temperatura superior o igual a 80ºC. Segonament, que cap part de la regió sana (per $x\in(0,0.75) \cup (1.25,2)$ en cm) arribi o superi els 50ºC. Imposant aquestes dues condicions iterativament arribem a un temps màxim en el qual es compleixen. Amb aquest temps, ens assegurem que per aquest i temps menors el tractament no serà perillós pel pacient. Ara, cerquem que la màxima regió de teixit malalt estigui entre 50ºC i 80ºC. Com hem imposat que en la frontera entre teixits ($x =0.75cm$ i $x=1.25cm$) s'arribes a la temperatura màxima però inferior a 50ºC, tot el teixit malalt es trobara a una temperatura superior. Llavors, la regió més externa del teixit malalt arriba com a mínim a 50ºC en el temps màxim que hem trobat. Això es pot comprovar en la figura \ref{fig:solucion_ivs}, on en vermell es mostra la frontera entre el teixit malalt i el saludable. 
 
@@ -234,9 +236,18 @@ Per determinar el temps necessari hem d'aplicar la senyal elèctrica per tractar
 \section{Conclusions}
 \section{Annex}\label{Annex I}
 \subsection{Solució analítica}
-Sigui una equació del tipus
+Per a una equació diferencial del tipus
 \begin{equation*}
-    \dot{f} = f'' + q
+    \frac{\partial f(x,t)}{\partial t} = \frac{\partial^2 f(x,t)}{\partial x^2} + q(x,t)
 \end{equation*}
-on $f = f(x,t)$, $q =q(x,t)$ i on el punt representa derivada parcial temporal i les primes derivades parcials erspecte a $x$.
+amb les condicions inicials i de contorn: $f(x,0) = \beta$, $f(0,t)=f(t,1)= \beta$. Sigin $x=0$ i $x=1$ les fronteres del sistema, tenim la solució
+\begin{equation*}
+    f(x,t) = \beta +\sum_{n=1}^{\infty} b_n(t) = \left( \frac{1-e^{-n^2\pi^2t}}{n^2\pi^2}\right)\sin{(n\pi x)}
+\end{equation*}
+on es defineix
+\begin{equation*}
+    b_n(t) = 2\int_{0}^{1} q(x,t)\sin{(n\pi x)}\text{d}x
+\end{equation*}
+\bibliographystyle{plain} 
+\bibliography{referencies.bib}
 \end{document}
